@@ -5,7 +5,7 @@ export const IdeasLayout = () => {
     <section>
       <nav>
         <NavLink to={'/categoria'}>categoria</NavLink>
-        <NavLink to={'/ideas'}>ideas</NavLink>
+        {/* <NavLink to={'/ideas'}>ideas</NavLink> */}
       </nav>
       <div>
         <Outlet />

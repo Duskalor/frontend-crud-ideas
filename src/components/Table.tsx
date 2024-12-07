@@ -4,38 +4,24 @@ import {
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import dayjs from 'dayjs';
 import { type CategoriaWithcreateAt } from '../types/categoria.type';
 import { useNavigate } from 'react-router-dom';
+import { IdeasWithcreateAt } from '../types/ideas.type';
 
-const columns: ColumnDef<CategoriaWithcreateAt>[] = [
-  {
-    accessorKey: 'nombre',
-    header: 'Nombre',
-  },
-  {
-    accessorKey: 'descripcion',
-    header: 'Descripción',
-  },
-  {
-    accessorKey: 'created_at',
-    header: 'Fecha de creación',
-    cell: ({ row: { original } }) => (
-      <div className='text-center'>
-        {dayjs(original.createAt).format('DD MMM YYYY')}
-      </div>
-    ),
-  },
-];
+interface Props<T> {
+  data: T[];
+  columns: ColumnDef<T>[];
+}
 
-export const CategoriasTable = ({
-  categorias,
-}: {
-  categorias: CategoriaWithcreateAt[];
-}) => {
+export const TableTanstack = <
+  T extends CategoriaWithcreateAt | IdeasWithcreateAt,
+>({
+  data,
+  columns,
+}: Props<T>) => {
   const navigate = useNavigate();
   const table = useReactTable({
-    data: categorias,
+    data,
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
@@ -60,9 +46,13 @@ export const CategoriasTable = ({
         {table.getRowModel().rows.map((row, index) => {
           return (
             <tr
-              onClick={() => navigate(`/categoria/${row.original.id}/ideas`)}
+              onClick={() => {
+                data[0].nombre
+                  ? navigate(`/categoria/${row.original.id}/ideas`)
+                  : console.log('aqui');
+              }}
               key={row.id}
-              className={`cursor-pointer ${index % 2 === 0 ? 'bg-gray-100' : 'bg-white'}`}
+              className={` ${data[0].nombre ? 'cursor-pointer' : ''}  ${index % 2 === 0 ? 'bg-gray-100' : 'bg-white'}`}
             >
               {row.getVisibleCells().map((cell) => (
                 <td key={cell.id} className='border border-gray-300 p-2'>

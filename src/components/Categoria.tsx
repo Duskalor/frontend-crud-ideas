@@ -1,11 +1,33 @@
 import { useState } from 'react';
-import { CategoriasTable } from '../components/CategoriasTable';
 import { ModelFormNewCategoria } from '../components/ModelFormNewCategoria';
 import { useGetData } from '../hook/useData';
 import { routes } from '../lib/const';
+import { CategoriaWithcreateAt } from '../types/categoria.type';
+import { ColumnDef } from '@tanstack/react-table';
+import dayjs from 'dayjs';
+import { TableTanstack } from './Table';
 
+const columns: ColumnDef<CategoriaWithcreateAt>[] = [
+  {
+    accessorKey: 'nombre',
+    header: 'Nombre',
+  },
+  {
+    accessorKey: 'descripcion',
+    header: 'Descripción',
+  },
+  {
+    accessorKey: 'created_at',
+    header: 'Fecha de creación',
+    cell: ({ row: { original } }) => (
+      <div className='text-center'>
+        {dayjs(original.createAt).format('DD MMM YYYY')}
+      </div>
+    ),
+  },
+];
 export const Categoria = () => {
-  const { data } = useGetData(routes.Categoria);
+  const { data = [] } = useGetData(routes.Categoria);
   const [showModal, setShowModal] = useState(false);
   const handleClose = () => setShowModal(false);
   return (
@@ -20,7 +42,7 @@ export const Categoria = () => {
         </button>
       </div>
       {showModal && <ModelFormNewCategoria handleClose={handleClose} />}
-      <CategoriasTable categorias={data ?? []} />
+      <TableTanstack data={data} columns={columns} />
     </>
   );
 };
