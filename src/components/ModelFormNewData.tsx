@@ -1,22 +1,25 @@
 import { createPortal } from 'react-dom';
-import { z } from 'zod';
-import { routes } from '../lib/const';
 import { usePostData } from '../hook/useData';
+import { schemaCategoria, schemaIdeas } from '../lib/schemas';
 
 interface Props {
   handleClose: () => void;
+  route: string;
+  categoriaId?: string;
 }
-const schema = z.object({
-  nombre: z.string(),
-  descripcion: z.string().optional(),
-});
 
-export const ModelFormNewCategoria = ({ handleClose }: Props) => {
-  const { mutate } = usePostData(routes.Categoria);
+export const ModelFormNewData = ({
+  categoriaId,
+  route,
+  handleClose,
+}: Props) => {
+  const { mutate } = usePostData(route);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const schema = categoriaId ? schemaIdeas : schemaCategoria;
     const formData = Object.fromEntries(new FormData(e.currentTarget));
+    console.log(formData);
     const result = schema.safeParse(formData);
 
     if (!result.success) {
@@ -27,7 +30,6 @@ export const ModelFormNewCategoria = ({ handleClose }: Props) => {
     mutate(newDatatoDB);
     handleClose();
   };
-
   return createPortal(
     <form onSubmit={handleSubmit}>
       <div className='fixed z-10 inset-0 overflow-y-auto'>
@@ -44,12 +46,20 @@ export const ModelFormNewCategoria = ({ handleClose }: Props) => {
           <div className='inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full'>
             <div className='bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4'>
               <div className='sm:flex sm:items-start'>
+                {categoriaId ? (
+                  <input
+                    type='text'
+                    hidden
+                    defaultValue={categoriaId}
+                    name='categoriaId'
+                  />
+                ) : null}
                 <div className='mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left'>
                   <h3
                     className='text-lg leading-6 font-medium text-gray-900'
                     id='modal-title'
                   >
-                    Nueva categoría
+                    Nueva {categoriaId ? 'Idea' : 'Categoría'}
                   </h3>
                   <div className='mt-2'>
                     <div>
@@ -57,13 +67,13 @@ export const ModelFormNewCategoria = ({ handleClose }: Props) => {
                         htmlFor='nombre'
                         className='block text-sm font-medium text-gray-700'
                       >
-                        Nombre
+                        {categoriaId ? 'Título' : 'Nombre'}
                       </label>
                       <div className='mt-1'>
                         <input
                           type='text'
-                          name='nombre'
-                          id='nombre'
+                          name={categoriaId ? 'titulo' : 'nombre'}
+                          id={categoriaId ? 'titulo' : 'nombre'}
                           className='shadow-sm bg-white text-black  border-black border-2 w-full sm:text-sm  rounded-md'
                         />
                       </div>

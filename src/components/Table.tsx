@@ -47,12 +47,12 @@ export const TableTanstack = <
           return (
             <tr
               onClick={() => {
-                data[0].nombre
+                'nombre' in data[0]
                   ? navigate(`/categoria/${row.original.id}/ideas`)
                   : console.log('aqui');
               }}
               key={row.id}
-              className={` ${data[0].nombre ? 'cursor-pointer' : ''}  ${index % 2 === 0 ? 'bg-gray-100' : 'bg-white'}`}
+              className={` ${'nombre' in data[0] ? 'cursor-pointer' : ''}  ${index % 2 === 0 ? 'bg-gray-100' : 'bg-white'}`}
             >
               {row.getVisibleCells().map((cell) => (
                 <td key={cell.id} className='border border-gray-300 p-2'>

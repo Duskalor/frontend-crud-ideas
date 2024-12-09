@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { type Ideas } from '../types/ideas.type';
+import { IdeasWithCategoriaId, type Ideas } from '../types/ideas.type';
 import { type Categoria } from '../types/categoria.type';
 
 const fetchData = async ({ route, id }: { route: string; id?: string }) => {
@@ -38,7 +38,8 @@ const PostData = async (value: Ideas | Categoria, route: string) => {
 export const usePostData = (route: string) => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (value: Ideas | Categoria) => PostData(value, route),
+    mutationFn: async (value: IdeasWithCategoriaId | Categoria) =>
+      PostData(value, route),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [route] });
     },

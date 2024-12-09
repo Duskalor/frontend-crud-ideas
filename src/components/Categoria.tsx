@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { ModelFormNewCategoria } from '../components/ModelFormNewCategoria';
 import { useGetData } from '../hook/useData';
 import { routes } from '../lib/const';
 import { CategoriaWithcreateAt } from '../types/categoria.type';
 import { ColumnDef } from '@tanstack/react-table';
 import dayjs from 'dayjs';
 import { TableTanstack } from './Table';
+import { ModelFormNewData } from './ModelFormNewData';
+import { ButtonModal } from './ButtonModal';
 
 const columns: ColumnDef<CategoriaWithcreateAt>[] = [
   {
@@ -34,14 +35,13 @@ export const Categoria = () => {
     <>
       <h1 className='text-center text-3xl py-6'>Categorias</h1>
       <div className='flex justify-end py-2'>
-        <button
-          onClick={() => setShowModal(true)}
-          className='btn bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
-        >
+        <ButtonModal modalfn={setShowModal}>
           Agregar nueva categoría
-        </button>
+        </ButtonModal>
       </div>
-      {showModal && <ModelFormNewCategoria handleClose={handleClose} />}
+      {showModal && (
+        <ModelFormNewData handleClose={handleClose} route={routes.Categoria} />
+      )}
       <TableTanstack data={data} columns={columns} />
     </>
   );

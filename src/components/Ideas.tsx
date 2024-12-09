@@ -5,6 +5,9 @@ import { TableTanstack } from './Table';
 import { ColumnDef } from '@tanstack/react-table';
 import { IdeasWithcreateAt } from '../types/ideas.type';
 import dayjs from 'dayjs';
+import { useState } from 'react';
+import { ModelFormNewData } from './ModelFormNewData';
+import { ButtonModal } from './ButtonModal';
 
 export const columns: ColumnDef<IdeasWithcreateAt>[] = [
   {
@@ -30,11 +33,21 @@ export const columns: ColumnDef<IdeasWithcreateAt>[] = [
 
 export const Ideas = () => {
   const { id } = useParams();
+  const [showModal, setShowModal] = useState(false);
+  const handleClose = () => setShowModal(false);
   if (id === undefined) return <Navigate to={routes.Categoria} />;
   const { data } = useGetDataById(routes.Ideas, id);
   if (!data) return null;
   return (
     <div>
+      <ButtonModal modalfn={setShowModal}>Agregar nueva idea</ButtonModal>
+      {showModal && (
+        <ModelFormNewData
+          handleClose={handleClose}
+          route={routes.Ideas}
+          categoriaId={id}
+        />
+      )}
       <TableTanstack columns={columns} data={data} />
     </div>
   );
