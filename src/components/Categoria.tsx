@@ -12,17 +12,19 @@ const columns: ColumnDef<CategoriaWithcreateAt>[] = [
   {
     accessorKey: 'nombre',
     header: 'Nombre',
+    size: 225,
   },
   {
     accessorKey: 'descripcion',
     header: 'Descripción',
+    size: 500,
   },
   {
     accessorKey: 'created_at',
     header: 'Fecha de creación',
     cell: ({ row: { original } }) => (
       <div className='text-center'>
-        {dayjs(original.createAt).format('DD MMM YYYY')}
+        {dayjs(original.created_at).format('DD MMM YYYY')}
       </div>
     ),
   },

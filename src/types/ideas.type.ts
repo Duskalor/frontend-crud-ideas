@@ -1,10 +1,11 @@
 export interface Ideas {
   titulo: string;
   descripcion?: string;
+  completado: boolean;
 }
 
 export type IdeasWithcreateAt = Ideas & {
-  createAt: string;
+  created_at: string;
   id: string;
 };
 

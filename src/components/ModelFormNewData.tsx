@@ -14,7 +14,7 @@ export const ModelFormNewData = ({
   handleClose,
 }: Props) => {
   const { mutate } = usePostData(route);
-
+  console.log('aqui en el portal');
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const schema = categoriaId ? schemaIdeas : schemaCategoria;
@@ -119,6 +119,6 @@ export const ModelFormNewData = ({
         </div>
       </div>
     </form>,
-    document.body
+    document.getElementById('portal')!
   );
 };

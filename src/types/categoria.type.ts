@@ -4,6 +4,6 @@ export interface Categoria {
 }
 
 export type CategoriaWithcreateAt = Categoria & {
-  createAt: string;
+  created_at: string;
   id: string;
 };

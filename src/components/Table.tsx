@@ -27,12 +27,19 @@ export const TableTanstack = <
   });
 
   return (
-    <table className='w-full border-collapse text-black'>
+    <table
+      className='w-full border-collapse text-black mx-auto'
+      style={{ width: table.getTotalSize() }}
+    >
       <thead>
         {table.getHeaderGroups().map((getHeaderGroup) => (
           <tr key={getHeaderGroup.id} className='bg-gray-200'>
             {getHeaderGroup.headers.map((header) => (
-              <th key={header.id} className='border border-gray-300 p-2 '>
+              <th
+                key={header.id}
+                style={{ width: header.getSize() }}
+                className='border border-gray-300 p-2 '
+              >
                 {flexRender(
                   header.column.columnDef.header,
                   header.getContext()
@@ -55,7 +62,11 @@ export const TableTanstack = <
               className={` ${'nombre' in data[0] ? 'cursor-pointer' : ''}  ${index % 2 === 0 ? 'bg-gray-100' : 'bg-white'}`}
             >
               {row.getVisibleCells().map((cell) => (
-                <td key={cell.id} className='border border-gray-300 p-2'>
+                <td
+                  key={cell.id}
+                  style={{ width: cell.column.getSize() }}
+                  className='border border-gray-300 p-2'
+                >
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
               ))}

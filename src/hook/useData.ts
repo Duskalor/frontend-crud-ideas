@@ -1,13 +1,15 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { IdeasWithCategoriaId, type Ideas } from '../types/ideas.type';
 import { type Categoria } from '../types/categoria.type';
+import { reverseDate } from '../lib/date';
 
 const fetchData = async ({ route, id }: { route: string; id?: string }) => {
   const optionalId = id ? `/${id}` : '';
   const URL = `http://localhost:3000/${route}${optionalId}`;
   const res = await fetch(URL);
   const data = await res.json();
-  return [...data].reverse();
+
+  return reverseDate(data);
 };
 
 export const useGetData = (route: string) => {
@@ -32,7 +34,7 @@ const PostData = async (value: Ideas | Categoria, route: string) => {
   });
 
   const data = await res.json();
-  return data;
+  return reverseDate(data);
 };
 
 export const usePostData = (route: string) => {
