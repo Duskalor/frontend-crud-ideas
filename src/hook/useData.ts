@@ -41,7 +41,38 @@ export const usePostData = (route: string) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (value: IdeasWithCategoriaId | Categoria) =>
-      PostData(value, route),
+      await PostData(value, route),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [route] });
+    },
+  });
+};
+
+const UpdateData = async (
+  id: string,
+  value: Ideas | Categoria,
+  route: string
+) => {
+  const res = await fetch(`http://localhost:3000/${route}/${id}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(value),
+  });
+
+  const data = await res.json();
+  return reverseDate(data);
+};
+
+export const useUpdateData = (route: string) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async ({
+      id,
+      value,
+    }: {
+      id: string;
+      value: IdeasWithCategoriaId | Categoria;
+    }) => await UpdateData(id, value, route),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [route] });
     },

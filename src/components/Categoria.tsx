@@ -7,12 +7,14 @@ import dayjs from 'dayjs';
 import { TableTanstack } from './Table';
 import { ModelFormNewData } from './ModelFormNewData';
 import { ButtonModal } from './ButtonModal';
+import { NombreCell } from './nombreCell';
 
 const columns: ColumnDef<CategoriaWithcreateAt>[] = [
   {
     accessorKey: 'nombre',
     header: 'Nombre',
     size: 225,
+    cell: NombreCell,
   },
   {
     accessorKey: 'descripcion',
@@ -44,7 +46,7 @@ export const Categoria = () => {
       {showModal && (
         <ModelFormNewData handleClose={handleClose} route={routes.Categoria} />
       )}
-      <TableTanstack data={data} columns={columns} />
+      <TableTanstack data={data} columns={columns} route={routes.Categoria} />
     </>
   );
 };

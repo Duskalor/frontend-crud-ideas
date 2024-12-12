@@ -65,7 +65,7 @@ export const Ideas = () => {
           />
         )}
       </section>
-      <TableTanstack columns={columns} data={data} />
+      <TableTanstack columns={columns} data={data} route={routes.Ideas} />
     </div>
   );
 };
