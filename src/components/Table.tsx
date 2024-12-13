@@ -5,9 +5,8 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import { type CategoriaWithcreateAt } from '../types/categoria.type';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { IdeasWithcreateAt } from '../types/ideas.type';
-import { useState } from 'react';
 import { useUpdateData } from '../hook/useData';
 
 interface Props<T> {
@@ -23,15 +22,14 @@ export const TableTanstack = <
   columns,
   route,
 }: Props<T>) => {
-  // const [d, setD] = useState(data);
   const { mutate } = useUpdateData(route);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     meta: {
-      updateField: async (id: string, value: any) => {
+      updateField: (id: string, value: any) => {
         mutate({ id, value });
       },
     },
@@ -70,13 +68,13 @@ export const TableTanstack = <
               //     : console.log('aqui');
               // }}
               key={row.id}
-              className={` ${'nombre' in data[0] ? 'cursor-pointer' : ''}  ${index % 2 === 0 ? 'bg-gray-100' : 'bg-white'}`}
+              className={`${index % 2 === 0 ? 'bg-gray-100' : 'bg-white'}`}
             >
               {row.getVisibleCells().map((cell) => (
                 <td
                   key={cell.id}
                   style={{ width: cell.column.getSize() }}
-                  className='border border-gray-300 p-2'
+                  className='border border-gray-300 py-2'
                 >
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>

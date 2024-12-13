@@ -59,8 +59,9 @@ const UpdateData = async (
     body: JSON.stringify(value),
   });
 
-  const data = await res.json();
-  return reverseDate(data);
+  if (!res.ok) {
+    throw new Error('not PATCH ROUTE FOUND');
+  }
 };
 
 export const useUpdateData = (route: string) => {

@@ -13,17 +13,21 @@ const columns: ColumnDef<CategoriaWithcreateAt>[] = [
   {
     accessorKey: 'nombre',
     header: 'Nombre',
-    size: 225,
+    size: 250,
     cell: NombreCell,
   },
   {
     accessorKey: 'descripcion',
     header: 'Descripción',
     size: 500,
+    cell: (props) => (
+      <div className='p-2'>{props.getValue() as React.ReactNode}</div>
+    ),
   },
   {
     accessorKey: 'created_at',
     header: 'Fecha de creación',
+    enableSorting: false,
     cell: ({ row: { original } }) => (
       <div className='text-center'>
         {dayjs(original.created_at).format('DD MMM YYYY')}
